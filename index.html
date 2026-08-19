@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baby Shower - Shivani & Pradeep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <style>
+    @font-face {
+      font-family: 'Moontime';
+      src: url('fonts/MoonTime-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blush: #f8f4ee;
+      --rose-100: #efe9df;
+      --rose-200: #e2d9c8;
+      --rose-300: #c9a94e;
+      --rose-400: #b8952e;
+      --rose-500: #a07d1c;
+      --lavender: #e8f0e4;
+      --lavender-400: #7c9070;
+      --mint: #e8f0e4;
+      --mint-400: #6b8a5e;
+      --peach: #faf6ef;
+      --gold: #c9a94e;
+      --gold-light: #f5edda;
+      --cream: #fefcf7;
+      --text: #2c2416;
+      --text-light: #7c9070;
+      --soft-shadow: 0 25px 50px -12px rgba(44, 36, 22, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--blush);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Custom Cursor */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-ring {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--lavender-400);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transition: all 0.15s ease-out;
+    }
+
+    /* Navigation Dots */
+    .nav-dots {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(201, 169, 78, 0.2);
+      border: 2px solid var(--rose-300);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-dot::after {
+      content: attr(data-label);
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      color: var(--rose-500);
+      background: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .nav-dot:hover::after { opacity: 1; }
+    .nav-dot.active {
+      background: var(--rose-500);
+      transform: scale(1.3);
+      border-color: var(--rose-500);
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 30%, #fefcf7 0%, #f8f4ee 40%, #f0ead8 100%);
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: white;
+      border: 1.5px solid var(--rose-200);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose-400);
+      margin-bottom: 24px;
+      opacity: 0;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 16px;
+      opacity: 0;
+    }
+
+    .hero-title .accent {
+      font-family: 'Moontime', cursive;
+      color: var(--gold);
+      font-size: 1.8em;
+      display: block;
+      font-weight: 400;
+    }
+
+    .hero-title .names {
+      font-family: 'Moontime', cursive;
+      font-weight: 400;
+      display: block;
+      font-size: 1em;
+      margin-top: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #64748b;
+      max-width: 480px;
+      margin: 0 auto 32px;
+      opacity: 0;
+    }
+
+    .hero-date {
+      font-family: 'Caveat', cursive;
+      font-size: 2rem;
+      color: var(--rose-400);
+      opacity: 0;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rose-400);
+    }
+
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid var(--rose-400);
+      border-bottom: 2px solid var(--rose-400);
+      transform: rotate(45deg);
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ============ STORY SECTION ============ */
+    .story-section {
+      padding: 120px 24px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(180deg, var(--blush) 0%, white 100%);
+    }
+
+    .section-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rose-400);
+      margin-bottom: 12px;
+      opacity: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 24px;
+      line-height: 1.1;
+      opacity: 0;
+    }
+
+    .section-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #475569;
+      max-width: 600px;
+      opacity: 0;
+    }
+
+    .carousel-wrapper {
+      margin-top: 48px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--rose-100);
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      max-height: 75vh;
+      object-fit: contain;
+      display: block;
+      transform: scale(1);
+      transition: none;
+    }
+
+    .carousel-slide.active img {
+      animation: var(--slide-effect) 5s ease-in-out forwards;
+    }
+
+    .carousel-slide[data-effect="zoom-in"] { --slide-effect: kenBurnsZoomIn; }
+    .carousel-slide[data-effect="zoom-out"] { --slide-effect: kenBurnsZoomOut; }
+    .carousel-slide[data-effect="pan-left"] { --slide-effect: kenBurnsPanLeft; }
+    .carousel-slide[data-effect="pan-right"] { --slide-effect: kenBurnsPanRight; }
+
+    @keyframes kenBurnsZoomIn {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
+    @keyframes kenBurnsZoomOut {
+      0% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes kenBurnsPanLeft {
+      0% { transform: scale(1.05) translateX(2%); }
+      100% { transform: scale(1.05) translateX(-2%); }
+    }
+
+    @keyframes kenBurnsPanRight {
+      0% { transform: scale(1.05) translateX(-2%); }
+      100% { transform: scale(1.05) translateX(2%); }
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid var(--rose-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .carousel-btn:hover {
+      background: white;
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 8px 24px rgba(124, 144, 112, 0.15);
+    }
+
+    .carousel-btn svg {
+      width: 20px;
+      height: 20px;
+      color: var(--rose-500);
+    }
+
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rose-200);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background: var(--rose-500);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .carousel-counter {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 3;
+    }
+
+    /* ============ DETAILS SECTION ============ */
+    .details-section {
+      padding: 120px 24px;
+      background: linear-gradient(180deg, white 0%, var(--cream) 50%, var(--peach) 100%);
+      position: relative;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 48px auto 0;
+    }
+
+    .detail-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+      border: 1.5px solid rgba(124, 144, 112, 0.08);
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--lavender-400), var(--mint-400));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .detail-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 48px rgba(124, 144, 112, 0.12);
+    }
+
+    .detail-card:hover::before { opacity: 1; }
+
+    .detail-card-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-card-icon.date-icon { background: var(--gold-light); }
+    .detail-card-icon.time-icon { background: var(--lavender); }
+    .detail-card-icon.location-icon { background: var(--lavender); }
+
+    .detail-card-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .detail-card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose-400);
+      margin-bottom: 8px;
+    }
+
+    .detail-card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .detail-card-sub {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .location-card {
+      cursor: pointer;
+    }
+
+    .location-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--rose-500);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: var(--rose-100);
+      transition: all 0.25s ease;
+    }
+
+    .location-link:hover {
+      background: var(--rose-500);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .location-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ============ COUNTDOWN SECTION ============ */
+    .countdown-section {
+      padding: 100px 24px;
+      background: var(--text);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(201, 169, 78, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(124, 144, 112, 0.1) 0%, transparent 40%);
+    }
+
+    .countdown-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .countdown-box {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px 16px;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .countdown-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .countdown-unit {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 8px;
+    }
+
+    .countdown-stars {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.8; transform: scale(1.2); }
+    }
+
+    /* ============ REGISTRY & CTA SECTION ============ */
+    .cta-section {
+      padding: 120px 24px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--peach) 0%, var(--blush) 50%, white 100%);
+      position: relative;
+    }
+
+    .cta-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-gift-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(124, 144, 112, 0.12);
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .cta-gift-icon svg {
+      width: 44px;
+      height: 44px;
+      color: var(--rose-500);
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      opacity: 0;
+    }
+
+    .cta-text {
+      font-size: 1.1rem;
+      color: #64748b;
+      margin-bottom: 32px;
+      opacity: 0;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      opacity: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 36px;
+      border-radius: 100px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn:hover::after { opacity: 1; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--lavender-400), var(--mint-400));
+      color: white;
+      box-shadow: 0 8px 24px rgba(124, 144, 112, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 36px rgba(124, 144, 112, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--rose-500);
+      border: 2px solid var(--rose-200);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      border-color: var(--rose-400);
+      box-shadow: 0 8px 24px rgba(124, 144, 112, 0.15);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ============ RSVP SECTION ============ */
+    .rsvp-section {
+      padding: 100px 24px;
+      background: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .rsvp-content {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .rsvp-title {
+      font-family: 'Caveat', cursive;
+      font-size: 2.5rem;
+      color: var(--text);
+      margin-bottom: 8px;
+      opacity: 0;
+    }
+
+    .rsvp-subtitle {
+      font-size: 1rem;
+      color: #64748b;
+      margin-bottom: 32px;
+      opacity: 0;
+    }
+
+    .rsvp-form {
+      opacity: 0;
+    }
+
+    .rsvp-input {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 16px;
+      display: block;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 2px solid var(--rose-200);
+      background: white;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      outline: none;
+      resize: none;
+    }
+
+    .rsvp-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 169, 78, 0.15);
+    }
+
+    .rsvp-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .rsvp-message-input {
+      margin-top: 16px;
+    }
+
+    .rsvp-submit {
+      margin-top: 16px;
+      padding: 14px 36px;
+      border-radius: 100px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      background: var(--lavender-400);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .rsvp-submit.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .rsvp-submit.enabled:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 144, 112, 0.3);
+    }
+
+    .rsvp-submit.sending {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .rsvp-options {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .rsvp-btn {
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 2px solid var(--rose-200);
+      background: white;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rsvp-btn:hover {
+      border-color: var(--rose-400);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(124, 144, 112, 0.1);
+    }
+
+    .rsvp-btn.selected {
+      background: var(--rose-500);
+      color: white;
+      border-color: var(--rose-500);
+      transform: scale(1.08);
+      box-shadow: 0 8px 24px rgba(201, 169, 78, 0.3);
+    }
+
+    .rsvp-response {
+      margin-top: 24px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--rose-500);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+
+    .rsvp-response.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============ FOOTER ============ */
+    .footer {
+      padding: 48px 24px;
+      background: var(--blush);
+      text-align: center;
+      border-top: 1px solid var(--rose-100);
+    }
+
+    .footer-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: var(--rose-400);
+      margin-bottom: 8px;
+    }
+
+    .footer-sub {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    /* ============ FLOATING DECORATIONS ============ */
+    .deco-float {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.15;
+    }
+
+    /* ============ ROLLING STROLLER & CRAWLING BABY ============ */
+    .screen-animation {
+      position: fixed;
+      bottom: 20px;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.6;
+    }
+
+    .stroller-anim {
+      left: -120px;
+      animation: rollAcross 18s linear infinite;
+      animation-delay: 3s;
+    }
+
+    .stroller-anim-2 {
+      left: -120px;
+      bottom: 60px;
+      animation: rollAcross 22s linear infinite;
+      animation-delay: 12s;
+      opacity: 0.35;
+      transform: scale(0.7);
+    }
+
+    .baby-crawl-anim {
+      right: -100px;
+      bottom: 30px;
+      animation: crawlAcross 20s linear infinite;
+      animation-delay: 8s;
+    }
+
+    @keyframes rollAcross {
+      0% { transform: translateX(0); opacity: 0; }
+      3% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateX(calc(100vw + 240px)); opacity: 0; }
+    }
+
+    @keyframes crawlAcross {
+      0% { transform: translateX(0) scaleX(-1); opacity: 0; }
+      3% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateX(calc(-100vw - 200px)) scaleX(-1); opacity: 0; }
+    }
+
+    .stroller-svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    .baby-svg {
+      width: 70px;
+      height: 50px;
+    }
+
+    .stroller-wheels {
+      animation: wheelSpin 0.8s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes wheelSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .baby-limbs {
+      animation: crawlMotion 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes crawlMotion {
+      0% { transform: translateY(0) rotate(-2deg); }
+      100% { transform: translateY(-3px) rotate(2deg); }
+    }
+
+    /* ============ CONFETTI CANVAS ============ */
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 768px) {
+      .nav-dots { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+
+      .carousel-btn {
+        width: 36px;
+        height: 36px;
+      }
+
+      .carousel-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown-grid {
+        gap: 8px;
+      }
+
+      .rsvp-options {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2.5rem; }
+      .countdown-num { font-size: 2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .particle, .star { display: none; }
+      .scroll-indicator { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Rolling Stroller -->
+  <div class="screen-animation stroller-anim" aria-hidden="true">
+    <svg class="stroller-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 25 C20 25 22 20 28 20 L32 20 L34 15 L38 15" stroke="#7c9070" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M28 20 L28 45 C28 50 32 54 38 54 L52 54 C57 54 60 50 60 45 L60 30 L28 30" stroke="#7c9070" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="#e8f0e4"/>
+      <path d="M28 30 L60 30" stroke="#b8c4a8" stroke-width="1.5"/>
+      <line x1="44" y1="30" x2="44" y2="54" stroke="#b8c4a8" stroke-width="1"/>
+      <circle cx="33" cy="62" r="7" stroke="#7c9070" stroke-width="2.5" fill="none" class="stroller-wheels"/>
+      <circle cx="55" cy="62" r="7" stroke="#7c9070" stroke-width="2.5" fill="none" class="stroller-wheels"/>
+      <circle cx="33" cy="62" r="2" fill="#f43f5e"/>
+      <circle cx="55" cy="62" r="2" fill="#f43f5e"/>
+      <path d="M20 25 L18 28" stroke="#7c9070" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Second Stroller (smaller, background) -->
+  <div class="screen-animation stroller-anim-2" aria-hidden="true">
+    <svg class="stroller-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 25 C20 25 22 20 28 20 L32 20 L34 15 L38 15" stroke="#c9a94e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M28 20 L28 45 C28 50 32 54 38 54 L52 54 C57 54 60 50 60 45 L60 30 L28 30" stroke="#c9a94e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="#f5edda"/>
+      <path d="M28 30 L60 30" stroke="#d4b96a" stroke-width="1.5"/>
+      <circle cx="33" cy="62" r="7" stroke="#c9a94e" stroke-width="2.5" fill="none" class="stroller-wheels"/>
+      <circle cx="55" cy="62" r="7" stroke="#c9a94e" stroke-width="2.5" fill="none" class="stroller-wheels"/>
+      <circle cx="33" cy="62" r="2" fill="#a78bfa"/>
+      <circle cx="55" cy="62" r="2" fill="#a78bfa"/>
+      <path d="M20 25 L18 28" stroke="#c9a94e" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Crawling Baby -->
+  <div class="screen-animation baby-crawl-anim" aria-hidden="true">
+    <svg class="baby-svg" viewBox="0 0 70 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g class="baby-limbs">
+        <!-- Body -->
+        <ellipse cx="35" cy="30" rx="14" ry="10" fill="#d4c9a0"/>
+        <!-- Head -->
+        <circle cx="52" cy="22" r="9" fill="#e8dfc4"/>
+        <!-- Face -->
+        <circle cx="54" cy="20" r="1.5" fill="#1e1b4b"/>
+        <circle cx="50" cy="20" r="1.5" fill="#1e1b4b"/>
+        <path d="M50 24 Q52 26 54 24" stroke="#7c9070" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <!-- Hair tuft -->
+        <path d="M48 14 Q50 10 52 14" stroke="#92400e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M50 13 Q52 9 54 13" stroke="#92400e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Arms -->
+        <path d="M45 35 L52 40 L54 38" stroke="#b8c4a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M30 35 L24 40 L22 38" stroke="#b8c4a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Legs -->
+        <path d="M25 28 L18 34 L16 32" stroke="#b8c4a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 30 L16 38 L14 36" stroke="#b8c4a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Diaper -->
+        <ellipse cx="24" cy="30" rx="6" ry="7" fill="white" stroke="#b8c4a8" stroke-width="1"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Navigation Dots -->
+  <nav class="nav-dots" aria-label="Section navigation">
+    <div class="nav-dot active" data-section="hero" data-label="Welcome" role="button" tabindex="0" aria-label="Go to Welcome section"></div>
+    <div class="nav-dot" data-section="story" data-label="Our Story" role="button" tabindex="0" aria-label="Go to Our Story section"></div>
+    <div class="nav-dot" data-section="details" data-label="Details" role="button" tabindex="0" aria-label="Go to Details section"></div>
+    <div class="nav-dot" data-section="countdown" data-label="Countdown" role="button" tabindex="0" aria-label="Go to Countdown section"></div>
+    <div class="nav-dot" data-section="registry" data-label="Registry" role="button" tabindex="0" aria-label="Go to Registry section"></div>
+    <div class="nav-dot" data-section="rsvp" data-label="RSVP" role="button" tabindex="0" aria-label="Go to RSVP section"></div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-particles" id="heroParticles"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">You're Invited</div>
+      <h1 class="hero-title">
+        <span class="accent">Baby Shower</span>
+        <span class="names">Shivani & Pradeep</span>
+      </h1>
+      <p class="hero-subtitle">Join us in celebrating the upcoming arrival of our little one</p>
+      <p class="hero-date">20th September, 2026</p>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="story-section" id="story">
+    <div class="section-container">
+      <p class="section-label">Our Journey</p>
+      <h2 class="section-title">A new chapter begins</h2>
+      <p class="section-text">
+        Our hearts are overflowing with joy as we prepare to welcome our newest family member.
+        We would be honored to have you celebrate this beautiful milestone with us.
+      </p>
+
+      <div class="carousel-wrapper" id="carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide active" data-effect="zoom-in"><img src="img/1.jpg" alt="Memory 1"></div>
+          <div class="carousel-slide" data-effect="pan-left"><img src="img/2.jpg" alt="Memory 2"></div>
+          <div class="carousel-slide" data-effect="zoom-out"><img src="img/3.jpg" alt="Memory 3"></div>
+          <div class="carousel-slide" data-effect="pan-right"><img src="img/4.jpg" alt="Memory 4"></div>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="carousel-counter" id="carouselCounter">1 / 4</div>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- ============ DETAILS ============ -->
+  <section class="details-section" id="details">
+    <div class="section-container" style="text-align: center;">
+      <p class="section-label">The Details</p>
+      <h2 class="section-title">When & Where</h2>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-card">
+        <div class="detail-card-icon date-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a94e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <p class="detail-card-label">Date</p>
+        <p class="detail-card-value">Saturday, 20th September</p>
+        <p class="detail-card-sub">2026</p>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-card-icon time-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7c9070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <p class="detail-card-label">Time</p>
+        <p class="detail-card-value">11:00 AM - 3:00 PM</p>
+        <p class="detail-card-sub">Will be waiting for you :)</p>
+      </div>
+
+      <div class="detail-card location-card" onclick="window.open('https://maps.google.com/?q=4A+Heather+Court+Para+Vista+SA', '_blank')" role="link" tabindex="0" aria-label="Open location in Google Maps">
+        <div class="detail-card-icon location-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6b8a5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <p class="detail-card-label">Location</p>
+        <p class="detail-card-value">4A Heather Court</p>
+        <p class="detail-card-sub">Para Vista, SA</p>
+        <a href="https://maps.google.com/?q=4A+Heather+Court+Para+Vista+SA" target="_blank" rel="noopener noreferrer" class="location-link" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section class="countdown-section" id="countdown">
+    <div class="countdown-stars" id="starsContainer"></div>
+    <h2 class="countdown-title">Counting down to the big day...</h2>
+    <div class="countdown-grid">
+      <div class="countdown-box">
+        <div class="countdown-num" id="cDays">--</div>
+        <div class="countdown-unit">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cHours">--</div>
+        <div class="countdown-unit">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cMins">--</div>
+        <div class="countdown-unit">Minutes</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cSecs">--</div>
+        <div class="countdown-unit">Seconds</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REGISTRY / CTA ============ -->
+  <section class="cta-section" id="registry">
+    <div class="cta-content">
+      <div class="cta-gift-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
+        </svg>
+      </div>
+      <h2 class="cta-title">Baby Registry</h2>
+      <p class="cta-text">Your presence is the greatest gift, but if you'd like to bring something for our little one, here's our registry.</p>
+      <div class="cta-buttons">
+        <a href="https://www.myregistry.com/baby-registry/shivani-dhull-and-pradeep-singh-para-vista-sa/5551405" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21"/></svg>
+          View Baby Registry
+        </a>
+        <a href="https://maps.google.com/?q=4A+Heather+Court+Para+Vista+SA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
+          Get Directions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section class="rsvp-section" id="rsvp">
+    <div class="rsvp-content">
+      <h2 class="rsvp-title">Will you be there?</h2>
+      <p class="rsvp-subtitle">Let us know if you can make it</p>
+      <div class="rsvp-form" id="rsvpForm">
+        <input type="text" class="rsvp-input" id="rsvpName" placeholder="Your name" required>
+        <div class="rsvp-options">
+          <button class="rsvp-btn" data-response="Count me in!" aria-label="RSVP attending">Count me in!</button>
+          <button class="rsvp-btn" data-response="Maybe" aria-label="RSVP maybe">Maybe</button>
+          <button class="rsvp-btn" data-response="Can't make it" aria-label="RSVP not attending">Can't make it</button>
+        </div>
+        <textarea class="rsvp-input rsvp-message-input" id="rsvpMessage" placeholder="Leave a message (optional)" rows="2"></textarea>
+        <button class="rsvp-submit" id="rsvpSubmit" disabled>Send RSVP</button>
+      </div>
+      <p class="rsvp-response" id="rsvpResponse"></p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <p class="footer-text">We can't wait to celebrate with you!</p>
+    <p class="footer-sub">Shivani & Pradeep</p>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ============ CUSTOM CURSOR ============
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      gsap.to(dot, { x: mouseX - 4, y: mouseY - 4, duration: 0.1 });
+      gsap.to(ring, { x: mouseX - 16, y: mouseY - 16, duration: 0.25 });
+    });
+
+    document.querySelectorAll('a, button, .nav-dot, .location-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(ring, { scale: 1.8, borderColor: 'rgba(201,169,78,0.6)', duration: 0.3 });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(ring, { scale: 1, borderColor: 'rgba(124,144,112,0.7)', duration: 0.3 });
+      });
+    });
+
+    // ============ HERO PARTICLES ============
+    const heroParticles = document.getElementById('heroParticles');
+    const colors = ['#c9a94e', '#7c9070', '#a8c49a', '#d4b96a', '#b8c4a8', '#e2d9c8'];
+
+    for (let i = 0; i < 50; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 12 + 4;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      heroParticles.appendChild(p);
+
+      gsap.to(p, {
+        opacity: Math.random() * 0.5 + 0.2,
+        y: `random(-80, 80)`,
+        x: `random(-40, 40)`,
+        scale: `random(0.5, 1.5)`,
+        duration: `random(4, 8)`,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: Math.random() * 3
+      });
+    }
+
+    // ============ HERO ANIMATIONS ============
+    const heroTL = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    heroTL
+      .to('.hero-badge', { opacity: 1, y: 0, duration: 1 }, 0.2)
+      .fromTo('.hero-title', { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.2 }, 0.4)
+      .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1 }, 0.8)
+      .fromTo('.hero-date', { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8 }, 1.1)
+      .to('.scroll-indicator', { opacity: 1, duration: 0.8 }, 1.5);
+
+    // ============ STORY SECTION ANIMATIONS ============
+    gsap.to('.section-label', {
+      scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
+      opacity: 1, y: 0, duration: 0.8
+    });
+
+    gsap.to('.section-title', {
+      scrollTrigger: { trigger: '.story-section', start: 'top 65%' },
+      opacity: 1, y: 0, duration: 1, delay: 0.2
+    });
+
+    gsap.to('.section-text', {
+      scrollTrigger: { trigger: '.story-section', start: 'top 60%' },
+      opacity: 1, y: 0, duration: 1, delay: 0.4
+    });
+
+    // Carousel reveal
+    gsap.to('.carousel-wrapper', {
+      scrollTrigger: { trigger: '.carousel-wrapper', start: 'top 80%' },
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out'
+    });
+
+    // ============ PHOTO CAROUSEL ============
+    const track = document.getElementById('carouselTrack');
+    const slides = track.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+    const dotsContainer = document.getElementById('carouselDots');
+    const counter = document.getElementById('carouselCounter');
+    let currentSlide = 0;
+    let autoplayInterval;
+
+    // Create dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.classList.add('carousel-dot');
+      if (i === 0) dot.classList.add('active');
+      dot.setAttribute('aria-label', `Go to image ${i + 1}`);
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      currentSlide = index;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+      document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === currentSlide);
+      });
+      // Trigger Ken Burns animation on new active slide
+      setTimeout(() => {
+        slides[currentSlide].classList.add('active');
+      }, 50);
+    }
+
+    function nextSlide() {
+      goToSlide((currentSlide + 1) % totalSlides);
+    }
+
+    function prevSlide() {
+      goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+    }
+
+    document.querySelector('.carousel-btn.next').addEventListener('click', () => {
+      nextSlide();
+      resetAutoplay();
+    });
+
+    document.querySelector('.carousel-btn.prev').addEventListener('click', () => {
+      prevSlide();
+      resetAutoplay();
+    });
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+        resetAutoplay();
+      }
+    }, { passive: true });
+
+    // Autoplay
+    function startAutoplay() {
+      autoplayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function resetAutoplay() {
+      clearInterval(autoplayInterval);
+      startAutoplay();
+    }
+
+    startAutoplay();
+
+    // Pause on hover
+    document.getElementById('carousel').addEventListener('mouseenter', () => {
+      clearInterval(autoplayInterval);
+    });
+
+    document.getElementById('carousel').addEventListener('mouseleave', () => {
+      startAutoplay();
+    });
+
+    // ============ DETAILS SECTION ANIMATIONS ============
+    const detailsLabel = document.querySelector('.details-section .section-label');
+    const detailsTitle = document.querySelector('.details-section .section-title');
+
+    gsap.to(detailsLabel, {
+      scrollTrigger: { trigger: '.details-section', start: 'top 70%' },
+      opacity: 1, duration: 0.8
+    });
+
+    gsap.to(detailsTitle, {
+      scrollTrigger: { trigger: '.details-section', start: 'top 65%' },
+      opacity: 1, duration: 1, delay: 0.2
+    });
+
+    gsap.utils.toArray('.detail-card').forEach((card, i) => {
+      gsap.to(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%' },
+        opacity: 1, y: 0, scale: 1, duration: 0.8, delay: i * 0.12, ease: 'back.out(1.5)'
+      });
+    });
+
+    // ============ COUNTDOWN SECTION ============
+    // Stars background
+    const starsContainer = document.getElementById('starsContainer');
+    for (let i = 0; i < 60; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      star.style.width = Math.random() * 3 + 1 + 'px';
+      star.style.height = star.style.width;
+      starsContainer.appendChild(star);
+    }
+
+    gsap.to('.countdown-title', {
+      scrollTrigger: { trigger: '.countdown-section', start: 'top 70%' },
+      opacity: 1, duration: 1
+    });
+
+    gsap.utils.toArray('.countdown-box').forEach((box, i) => {
+      gsap.to(box, {
+        scrollTrigger: { trigger: '.countdown-section', start: 'top 65%' },
+        opacity: 1, scale: 1, duration: 0.6, delay: i * 0.1, ease: 'back.out(2)'
+      });
+    });
+
+    // Countdown logic
+    const eventDate = new Date('2026-09-20T11:00:00').getTime();
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = eventDate - now;
+      if (diff <= 0) {
+        document.getElementById('cDays').textContent = '0';
+        document.getElementById('cHours').textContent = '0';
+        document.getElementById('cMins').textContent = '0';
+        document.getElementById('cSecs').textContent = '0';
+        return;
+      }
+      document.getElementById('cDays').textContent = Math.floor(diff / 86400000);
+      document.getElementById('cHours').textContent = Math.floor((diff % 86400000) / 3600000);
+      document.getElementById('cMins').textContent = Math.floor((diff % 3600000) / 60000);
+      document.getElementById('cSecs').textContent = Math.floor((diff % 60000) / 1000);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ============ CTA / REGISTRY ANIMATIONS ============
+    gsap.to('.cta-gift-icon', {
+      scrollTrigger: { trigger: '.cta-section', start: 'top 70%' },
+      opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(2)'
+    });
+
+    gsap.to('.cta-title', {
+      scrollTrigger: { trigger: '.cta-section', start: 'top 65%' },
+      opacity: 1, duration: 1, delay: 0.2
+    });
+
+    gsap.to('.cta-text', {
+      scrollTrigger: { trigger: '.cta-section', start: 'top 60%' },
+      opacity: 1, duration: 1, delay: 0.3
+    });
+
+    gsap.to('.cta-buttons', {
+      scrollTrigger: { trigger: '.cta-section', start: 'top 55%' },
+      opacity: 1, duration: 1, delay: 0.4
+    });
+
+    // ============ RSVP ANIMATIONS ============
+    gsap.to('.rsvp-title', {
+      scrollTrigger: { trigger: '.rsvp-section', start: 'top 70%' },
+      opacity: 1, duration: 0.8
+    });
+
+    gsap.to('.rsvp-subtitle', {
+      scrollTrigger: { trigger: '.rsvp-section', start: 'top 65%' },
+      opacity: 1, duration: 0.8, delay: 0.15
+    });
+
+    gsap.to('.rsvp-form', {
+      scrollTrigger: { trigger: '.rsvp-section', start: 'top 60%' },
+      opacity: 1, duration: 0.8, delay: 0.3
+    });
+
+    // RSVP logic
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxnoRNIubeOVqPaMqCDgMXN2cB_7dwPN0UgtouO4XN9aLZ6jg0WV653sVadlfzsRYxB/exec';
+    const rsvpBtns = document.querySelectorAll('.rsvp-btn');
+    const rsvpNameInput = document.getElementById('rsvpName');
+    const rsvpMessageInput = document.getElementById('rsvpMessage');
+    const rsvpSubmitBtn = document.getElementById('rsvpSubmit');
+    const rsvpResponse = document.getElementById('rsvpResponse');
+    let selectedResponse = '';
+
+    function checkFormReady() {
+      if (rsvpNameInput.value.trim() && selectedResponse) {
+        rsvpSubmitBtn.classList.add('enabled');
+        rsvpSubmitBtn.disabled = false;
+      } else {
+        rsvpSubmitBtn.classList.remove('enabled');
+        rsvpSubmitBtn.disabled = true;
+      }
+    }
+
+    rsvpNameInput.addEventListener('input', checkFormReady);
+
+    rsvpBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        rsvpBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedResponse = btn.dataset.response;
+        checkFormReady();
+        if (selectedResponse === 'Count me in!') launchConfetti();
+      });
+    });
+
+    rsvpSubmitBtn.addEventListener('click', async () => {
+      const name = rsvpNameInput.value.trim();
+      if (!name || !selectedResponse) return;
+
+      rsvpSubmitBtn.classList.add('sending');
+      rsvpSubmitBtn.textContent = 'Sending...';
+
+      try {
+        await fetch(SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            response: selectedResponse,
+            message: rsvpMessageInput.value.trim()
+          })
+        });
+
+        rsvpResponse.textContent = "Thank you, " + name + "! Your RSVP has been recorded.";
+        rsvpResponse.classList.add('visible');
+        rsvpSubmitBtn.textContent = 'Sent!';
+        rsvpSubmitBtn.classList.remove('sending');
+
+        // Disable form after submission
+        rsvpNameInput.disabled = true;
+        rsvpMessageInput.disabled = true;
+        rsvpBtns.forEach(b => b.disabled = true);
+        rsvpSubmitBtn.disabled = true;
+        rsvpSubmitBtn.classList.remove('enabled');
+      } catch (err) {
+        rsvpResponse.textContent = "Something went wrong. Please try again.";
+        rsvpResponse.classList.add('visible');
+        rsvpSubmitBtn.textContent = 'Send RSVP';
+        rsvpSubmitBtn.classList.remove('sending');
+        rsvpSubmitBtn.classList.add('enabled');
+      }
+    });
+
+    // ============ CONFETTI ============
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const ctx = confettiCanvas.getContext('2d');
+    let confettiPieces = [];
+    let confettiAnim = null;
+
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    resizeConfetti();
+    window.addEventListener('resize', resizeConfetti);
+
+    function launchConfetti() {
+      confettiPieces = [];
+      const confettiColors = ['#c9a94e', '#d4b96a', '#7c9070', '#a8c49a', '#6b8a5e', '#e2d9c8', '#b8952e'];
+      for (let i = 0; i < 150; i++) {
+        confettiPieces.push({
+          x: Math.random() * confettiCanvas.width,
+          y: -20 - Math.random() * 200,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 6 + 3,
+          color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+          vy: Math.random() * 4 + 2,
+          vx: (Math.random() - 0.5) * 3,
+          rotation: Math.random() * 360,
+          rv: (Math.random() - 0.5) * 8,
+          opacity: 1
+        });
+      }
+      if (confettiAnim) cancelAnimationFrame(confettiAnim);
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      let alive = false;
+      confettiPieces.forEach(p => {
+        if (p.opacity <= 0) return;
+        alive = true;
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rotation += p.rv;
+        p.vy += 0.05;
+        if (p.y > confettiCanvas.height - 100) p.opacity -= 0.02;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+      if (alive) confettiAnim = requestAnimationFrame(animateConfetti);
+    }
+
+    // ============ NAV DOTS ============
+    const sections = ['hero', 'story', 'details', 'countdown', 'registry', 'rsvp'];
+    const navDots = document.querySelectorAll('.nav-dot');
+
+    sections.forEach((id, i) => {
+      ScrollTrigger.create({
+        trigger: `#${id}`,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => setActiveDot(i),
+        onEnterBack: () => setActiveDot(i)
+      });
+    });
+
+    function setActiveDot(index) {
+      navDots.forEach(d => d.classList.remove('active'));
+      navDots[index].classList.add('active');
+    }
+
+    navDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const section = document.getElementById(dot.dataset.section);
+        section.scrollIntoView({ behavior: 'smooth' });
+      });
+      dot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dot.click();
+        }
+      });
+    });
+
+    // ============ PARALLAX ON HERO ============
+    gsap.to('.hero-particles', {
+      yPercent: 15,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+  </script>
+</body>
+</html>
