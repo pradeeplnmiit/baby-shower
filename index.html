@@ -543,6 +543,17 @@
 
     .location-link svg { width: 14px; height: 14px; }
 
+    .details-dresscode {
+      text-align: center;
+      max-width: 600px;
+      margin: 40px auto 0;
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: var(--terracotta-deep);
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
     /* ============ WHAT TO EXPECT SECTION ============ */
     .expect-section {
       padding: 100px 24px;
@@ -1365,6 +1376,8 @@
         </a>
       </div>
     </div>
+
+    <p class="details-dresscode">No dress code! 💕💙 Wear Pink or Blue to show your guess, or stay neutral and keep us guessing! 😉</p>
   </section>
 
   <!-- ============ WHAT TO EXPECT ============ -->
@@ -1629,6 +1642,11 @@
         scrollTrigger: { trigger: card, start: 'top 85%' },
         opacity: 1, y: 0, duration: 0.7, delay: i * 0.12, ease: 'back.out(1.5)'
       });
+    });
+
+    gsap.to('.details-dresscode', {
+      scrollTrigger: { trigger: '.details-dresscode', start: 'top 90%' },
+      opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power3.out'
     });
 
     // ============ WHAT TO EXPECT ============
