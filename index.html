@@ -543,6 +543,123 @@
 
     .location-link svg { width: 14px; height: 14px; }
 
+    /* ============ WHAT TO EXPECT SECTION ============ */
+    .expect-section {
+      padding: 100px 24px;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expect-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 40px auto 0;
+    }
+
+    .expect-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(194,91,40,0.06);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expect-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--terracotta), var(--peach-dark));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s ease;
+    }
+
+    .expect-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .expect-card:hover::before { transform: scaleX(1); }
+
+    .expect-card-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-light);
+    }
+
+    .expect-card-icon svg { width: 26px; height: 26px; }
+
+    .expect-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 8px;
+    }
+
+    .expect-card-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--charcoal-light);
+    }
+
+    .expect-highlight {
+      margin-top: 48px;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+      background: linear-gradient(135deg, rgba(194,91,40,0.06) 0%, rgba(252,221,176,0.3) 100%);
+      border: 2px dashed rgba(194,91,40,0.2);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .expect-highlight-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .expect-highlight-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem;
+      color: var(--terracotta-deep);
+      margin-bottom: 8px;
+    }
+
+    .expect-highlight-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--charcoal-light);
+    }
+
+    .expect-highlight-text strong {
+      color: var(--terracotta);
+    }
+
+    @media (max-width: 768px) {
+      .expect-grid { grid-template-columns: 1fr; }
+    }
+
     /* ============ COUNTDOWN SECTION ============ */
     .countdown-section {
       padding: 100px 24px;
@@ -662,7 +779,8 @@
     @media (max-width: 768px) {
       .cta-section::before {
         left: -15%;
-        right: -15%;
+        right
+        : -15%;
         background-size: 130%;
         background-position: center center;
       }
@@ -767,6 +885,19 @@
     }
 
     .btn svg { width: 18px; height: 18px; }
+
+    .cta-reminder {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--terracotta);
+      opacity: 0;
+      background: var(--accent-light);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1px dashed rgba(194,91,40,0.3);
+    }
 
     /* ============ RSVP SECTION ============ */
     .rsvp-section {
@@ -1125,6 +1256,7 @@
     <div class="nav-dot active" data-section="hero" data-label="Welcome" role="button" tabindex="0" aria-label="Go to Welcome section"></div>
     <div class="nav-dot" data-section="story" data-label="Our Story" role="button" tabindex="0" aria-label="Go to Our Story section"></div>
     <div class="nav-dot" data-section="details" data-label="Details" role="button" tabindex="0" aria-label="Go to Details section"></div>
+    <div class="nav-dot" data-section="expect" data-label="What to Expect" role="button" tabindex="0" aria-label="Go to What to Expect section"></div>
     <div class="nav-dot" data-section="countdown" data-label="Countdown" role="button" tabindex="0" aria-label="Go to Countdown section"></div>
     <div class="nav-dot" data-section="registry" data-label="Registry" role="button" tabindex="0" aria-label="Go to Registry section"></div>
     <div class="nav-dot" data-section="rsvp" data-label="RSVP" role="button" tabindex="0" aria-label="Go to RSVP section"></div>
@@ -1235,6 +1367,54 @@
     </div>
   </section>
 
+  <!-- ============ WHAT TO EXPECT ============ -->
+  <section class="expect-section" id="expect">
+    <div class="section-container" style="text-align: center;">
+      <p class="section-label">The Fun Part</p>
+      <h2 class="section-title">What to Expect</h2>
+    </div>
+
+    <div class="expect-grid">
+      <div class="expect-card">
+        <div class="expect-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C25B28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <p class="expect-card-title">Delicious Food</p>
+        <p class="expect-card-text">A scrumptious spread catered by <strong style="color:var(--terracotta)">Archy Cooks</strong> to keep your taste buds happy!</p>
+      </div>
+
+      <div class="expect-card">
+        <div class="expect-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C25B28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 2v4"/><path d="M12 2v4"/><path d="M8 6h4c1 0 2 .5 2 2v2c0 1.5-1 3-3 4l-1 1"/><path d="M10 22v-5"/><path d="M6 22h8"/><circle cx="17" cy="12" r="4"/><path d="M17 8v8"/>
+          </svg>
+        </div>
+        <p class="expect-card-title">Mocktails & Cocktails</p>
+        <p class="expect-card-text">Refreshing drinks mixed with love, courtesy of our talented friend with bartending skills!</p>
+      </div>
+
+      <div class="expect-card">
+        <div class="expect-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#C25B28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <p class="expect-card-title">Fun Games</p>
+        <p class="expect-card-text">Get ready for entertaining games, lots of laughter, and a great time with friends and family!</p>
+      </div>
+    </div>
+
+    <div class="expect-highlight">
+      <div class="expect-highlight-icon">&#x1F4DB;</div>
+      <p class="expect-highlight-title">Suggest a Baby Name!</p>
+      <p class="expect-highlight-text">
+        We'd love your help picking a name! Please come with <strong>one baby boy name</strong> and <strong>one baby girl name</strong> suggestion. If we name our little one after your suggestion, there are <strong>exciting prizes</strong> waiting for you!
+      </p>
+    </div>
+  </section>
+
   <!-- ============ COUNTDOWN ============ -->
   <section class="countdown-section" id="countdown">
     <div class="countdown-stars" id="starsContainer"></div>
@@ -1274,11 +1454,8 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg>
           View Baby Registry
         </a>
-        <a href="https://maps.google.com/?q=4A+Heather+Court+Para+Vista+SA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Get Directions
-        </a>
       </div>
+      <p class="cta-reminder">If you bought something, please mark it as purchased to avoid doubling up!</p>
     </div>
   </section>
 
@@ -1454,6 +1631,32 @@
       });
     });
 
+    // ============ WHAT TO EXPECT ============
+    const expectLabel = document.querySelector('.expect-section .section-label');
+    const expectTitle = document.querySelector('.expect-section .section-title');
+
+    gsap.to(expectLabel, {
+      scrollTrigger: { trigger: '.expect-section', start: 'top 70%' },
+      opacity: 1, duration: 0.8
+    });
+
+    gsap.to(expectTitle, {
+      scrollTrigger: { trigger: '.expect-section', start: 'top 65%' },
+      opacity: 1, duration: 1, delay: 0.2
+    });
+
+    gsap.utils.toArray('.expect-card').forEach((card, i) => {
+      gsap.to(card, {
+        scrollTrigger: { trigger: card, start: 'top 85%' },
+        opacity: 1, y: 0, duration: 0.7, delay: i * 0.12, ease: 'back.out(1.5)'
+      });
+    });
+
+    gsap.to('.expect-highlight', {
+      scrollTrigger: { trigger: '.expect-highlight', start: 'top 85%' },
+      opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power3.out'
+    });
+
     // ============ COUNTDOWN ============
     const starsContainer = document.getElementById('starsContainer');
     for (let i = 0; i < 50; i++) {
@@ -1518,6 +1721,11 @@
     gsap.to('.cta-buttons', {
       scrollTrigger: { trigger: '.cta-section', start: 'top 55%' },
       opacity: 1, duration: 1, delay: 0.4
+    });
+
+    gsap.to('.cta-reminder', {
+      scrollTrigger: { trigger: '.cta-section', start: 'top 50%' },
+      opacity: 1, duration: 0.8, delay: 0.6
     });
 
     // ============ RSVP ============
@@ -1663,7 +1871,7 @@
     }
 
     // ============ NAV DOTS ============
-    const sections = ['hero', 'story', 'details', 'countdown', 'registry', 'rsvp'];
+    const sections = ['hero', 'story', 'details', 'expect', 'countdown', 'registry', 'rsvp'];
     const navDots = document.querySelectorAll('.nav-dot');
 
     sections.forEach((id, i) => {
